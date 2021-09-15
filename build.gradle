@@ -52,6 +52,12 @@ dependencies {
     // https://mvnrepository.com/artifact/org.hsqldb/hsqldb
     //runtimeOnly 'org.hsqldb:hsqldb:2.6.0'
 
+    // Modelmapper
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    implementation 'org.modelmapper:modelmapper:2.4.4'
+
+    // https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+    testImplementation 'io.rest-assured:rest-assured:4.4.0'
 }
 
 test {
