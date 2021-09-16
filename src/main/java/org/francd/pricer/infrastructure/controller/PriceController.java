@@ -1,6 +1,7 @@
 package org.francd.pricer.infrastructure.controller;
 
-import org.francd.pricer.application.PriceServiceUseCases;
+import org.francd.pricer.application.FindAllPrices;
+import org.francd.pricer.application.FindPriceByApplicationDateBrandIdAndProductId;
 import org.francd.pricer.domain.model.Price;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,16 +18,19 @@ import java.util.Objects;
 @RequestMapping("/prices")
 public class PriceController {
 
-    private final PriceServiceUseCases priceServiceUseCases;
+    private final FindAllPrices findAllPrices;
+    private final FindPriceByApplicationDateBrandIdAndProductId findPriceByApplicationDateBrandIdAndProductId;
 
-    public PriceController(PriceServiceUseCases priceServiceUseCases) {
-        this.priceServiceUseCases = Objects.requireNonNull(priceServiceUseCases);
+    public PriceController(FindAllPrices findAllPrices,
+                           FindPriceByApplicationDateBrandIdAndProductId findPriceByApplicationDateBrandIdAndProductId) {
+        this.findAllPrices = Objects.requireNonNull(findAllPrices);
+        this.findPriceByApplicationDateBrandIdAndProductId = Objects.requireNonNull(findPriceByApplicationDateBrandIdAndProductId);
     }
 
 
     @GetMapping("")
     public List<Price> getAllPrices() {
-        return priceServiceUseCases.findAll();
+        return findAllPrices.execute();
     }
 
 
@@ -34,7 +38,7 @@ public class PriceController {
     public Price getPriceByApplicationDateBrandIdAndProductId(
             @DateTimeFormat(pattern = "yyyy-MM-dd-HH.mm.ss") @PathVariable  LocalDateTime applicationDate,
             @PathVariable Integer brandId, @PathVariable Integer productId) {
-        return priceServiceUseCases.findByApplicationDateBrandIdAndProductId(applicationDate,brandId,productId);
+        return findPriceByApplicationDateBrandIdAndProductId.execute(applicationDate,brandId,productId);
     }
 
 }

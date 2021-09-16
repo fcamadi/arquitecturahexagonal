@@ -1,6 +1,7 @@
 package org.francd.pricer.infrastructure.config;
 
-import org.francd.pricer.application.PriceServiceUseCases;
+import org.francd.pricer.application.FindAllPrices;
+import org.francd.pricer.application.FindPriceByApplicationDateBrandIdAndProductId;
 import org.francd.pricer.domain.port.PricePersistencePort;
 import org.francd.pricer.domain.service.PriceService;
 import org.francd.pricer.infrastructure.adapter.PriceJpaAdapter;
@@ -22,8 +23,13 @@ public class PriceConfiguration {
     }
 
     @Bean
-    public PriceServiceUseCases priceServiceUseCases() {
-        return new PriceServiceUseCases(priceService());
+    public FindAllPrices findAllPrices() {
+        return new FindAllPrices(priceService());
+    }
+
+    @Bean
+    public FindPriceByApplicationDateBrandIdAndProductId findPriceByApplicationDateBrandIdAndProductId() {
+        return new FindPriceByApplicationDateBrandIdAndProductId(priceService());
     }
 
 }
