@@ -1,5 +1,7 @@
 package org.francd.pricer.infrastructure.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.francd.pricer.application.FindAllPrices;
 import org.francd.pricer.application.FindPriceByApplicationDateBrandIdAndProductId;
 import org.francd.pricer.domain.model.Price;
@@ -28,16 +30,20 @@ public class PriceController {
     }
 
 
+    @Operation(summary = "Return all prices.")
     @GetMapping("")
     public List<Price> getAllPrices() {
         return findAllPrices.execute();
     }
 
-
+    @Operation(summary = "Get a price by application date, brand id and product id. " +
+            "If there is more than one, the one with the highest priority is returned.")
     @GetMapping("/{applicationDate}/{brandId}/{productId}")
     public Price getPriceByApplicationDateBrandIdAndProductId(
+            @Parameter(description = "Application date for the price. Format: yyyy-MM-dd-HH.mm.ss")
             @DateTimeFormat(pattern = "yyyy-MM-dd-HH.mm.ss") @PathVariable  LocalDateTime applicationDate,
-            @PathVariable Integer brandId, @PathVariable Integer productId) {
+            @Parameter(description = "Id of the product's brand. An integer.") @PathVariable Integer brandId,
+            @Parameter(description = "Id of the product. An integer.")@PathVariable Integer productId) {
         return findPriceByApplicationDateBrandIdAndProductId.execute(applicationDate,brandId,productId);
     }
 
